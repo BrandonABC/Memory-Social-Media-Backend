@@ -10,7 +10,7 @@ import userRouter from "./routes/user.js";
 
 const app = express();
 
-//限流处理（限流值可自己调节）
+// traffic handler(rate is adjustable)
 const apiLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
 	max: 1, // Limit each IP to 100 requests per `window` (here, per 15 minutes)

@@ -6,15 +6,16 @@ import PostMessage from '../models/postMessage.js';
 
 const router = express.Router();
 
-//敏感词过滤初始化
-//方法一（使用组件mint-filter：https://www.npmjs.com/package/mint-filter）
+// Sensitive word filter initialization
+// Method 1(use component mint-filter: https://www.npmjs.com/package/mint-filter)
 const mint = new Mint(['bad'])
 // var veryfyRes = mint.verify('bad 111')
 // console.log(veryfyRes)
 
-//方法二（使用组件bad-words：https://github.com/web-mech/badwords）
+// Method 2(use component bad-words：https://github.com/web-mech/badwords)
 var filter = new Filter(); 
-//真实场景下具体的黑名单会提前存在数据库中，这个名单支持运营同学动态更新。
+// The specific blacklist in real scenarios will be stored in the database in advance,
+// and this list supports dynamic updates.
 filter.addWords('bad', 'some', 'hells');
 // const badWordsCleanRes = filter.clean("some bad word weee!");
 // console.log(badWordsCleanRes)
@@ -78,7 +79,7 @@ export const getPost = async (req, res) => {
 export const createPost = async (req, res) => {
     const post = req.body;
 
-    //安全敏感词检测
+    // detect and filter out sensitive words
     post["title"] = filter.clean(post["title"]);
     post["message"] = filter.clean(post["message"]);
 
